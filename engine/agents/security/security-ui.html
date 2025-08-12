@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WebKurierSecurity — UI</title>
+  <style>
+    :root { --pad:14px; --radius:14px; --gap:10px; }
+    html, body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background:#0b0f14; color:#e8eef6; }
+    header { padding: var(--pad); position:sticky; top:0; background: #0b0f14cc; backdrop-filter: blur(6px); border-bottom: 1px solid #1e2937; }
+    h1 { margin:0 0 6px; font-size:20px; }
+    .grid { display:grid; grid-template-columns: 1fr; gap: var(--gap); padding: var(--pad); }
+    @media (min-width: 720px){ .grid { grid-template-columns: 1fr 1fr; } }
+    .card { background:#0f1722; border:1px solid #1e2937; border-radius: var(--radius); padding: var(--pad); }
+    .row { display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+    input, textarea, select {
+      background:#0b1220; color:#e8eef6; border:1px solid #223047; border-radius:12px; padding:10px 12px; width:100%;
+      outline:none;
+    }
+    textarea { min-height: 90px; }
+    .btn {
+      appearance:none; border:1px solid #2b3b54; background:#152034; color:#e8eef6; padding:10px 14px; border-radius:12px;
+      cursor:pointer; font-weight:600;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn.primary { background:#1b3b7a; border-color:#325aa3; }
+    .muted { color:#87a0c2; font-size:12px; }
+    .ok { color:#6fe3a8; }
+    .warn { color:#ffd36b; }
+    .bad { color:#ff7b7b; }
+    pre {
+      background:#0b1220; color:#d5e1f7; border:1px solid #223047; border-radius:12px; padding:12px; overflow:auto; max-height:40vh;
+    }
+    .badge { font-size:12px; padding:4px 8px; border-radius:999px; background:#132136; border:1px solid #223047; }
+    .split { display:flex; gap:8px; }
+    .split > * { flex:1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🛡 WebKurierSecurity — панель</h1>
+    <div class="muted">Управляй агентом: сканирование, мониторинг, firewall, токены и отчёты.</div>
+  </header>
+
+  <main class="grid">
+    <!-- SCAN -->
+    <section class="card">
+      <h3>🔍 Сканирование</h3>
+      <div class="row">
+        <input id="scanPath" placeholder="Путь (по умолчанию: текущая папка)" />
+      </div>
+      <div class="row">
+        <button class="btn primary" onclick="sendCmd('/scan ' + (gid('scanPath').value||''))">Запустить скан</button>
+      </div>
+      <div class="muted">Совет: оставь пустым — просканируется текущий путь на сервере.</div>
+    </section>
+
+    <!-- MONITOR -->
+    <section class="card">
+      <h3>📡 Мониторинг</h3>
+      <div class="row split">
+        <input id="monPath" placeholder="Путь для мониторинга (опционально)" />
+      </div>
+      <div class="row">
+        <button class="btn" onclick="sendCmd('/monitor start ' + (gid('monPath').value||''))">Start</button>
+        <button class="btn" onclick="sendCmd('/monitor stop')">Stop</button>
+      </div>
+      <div class="muted">Логи изменений будут печататься в stdout сервера.</div>
+    </section>
+
+    <!-- FIREWALL -->
+    <section class="card">
+      <h3>🚫 Firewall (IP blacklist)</h3>
+      <div class="row split">
+        <input id="fwIp" placeholder="IP (например 1.2.3.4)" />
+      </div>
+      <div class="row">
+        <button class="btn" onclick="sendCmd('/firewall add ' + gid('fwIp').value)">Добавить</button>
+        <button class="btn" onclick="sendCmd('/firewall remove ' + gid('fwIp').value)">Удалить</button>
+        <button class="btn" onclick="sendCmd('/firewall list')">Показать список</button>
+      </div>
+      <div class="muted">Список хранится в <code>engine/agents/security/firewall/blocklist.json</code>.</div>
+    </section>
+
+    <!-- TOKENS -->
+    <section class="card">
+      <h3>🔑 Токены</h3>
+      <div class="row">
+        <button class="btn primary" onclick="sendCmd('/tokens rotate')">Ротация/шифрование *_token</button>
+      </div>
+      <div class="muted">Шифрование AES‑256, ключ в <code>config.json → crypto.aes256_key_hex</code>.</div>
+    </section>
+
+    <!-- REPORT -->
+    <section class="card">
+      <h3>📄 Отчёты</h3>
+      <div class="row">
+        <button class="btn" onclick="sendCmd('/report make')">Сформировать PDF</button>
+        <button class="btn" onclick="sendCmd('/report send')">Отправить в Telegram</button>
+      </div>
+      <div class="muted">Последний отчёт: <code>engine/agents/security/report/last-security-report.pdf</code>.</div>
+    </section>
+
+    <!-- CONSOLE -->
+    <section class="card" style="grid-column: 1 / -1;">
+      <h3>💬 Командная строка агента</h3>
+      <div class="row">
+        <input id="rawCmd" placeholder="Например: /scan ./engine" />
+        <button class="btn" onclick="sendCmd(gid('rawCmd').value)">Выполнить</button>
+      </div>
+      <div class="row">
+        <span class="badge" id="status">Готов</span>
+      </div>
+      <pre id="out" aria-live="polite">Вывод появится здесь…</pre>
+      <div class="muted">Формат команд совпадает с <code>security-agent.js</code> (handleCommand).</div>
+    </section>
+  </main>
+
+  <script>
+    const API_ENDPOINT = '/api/security/handle'; 
+    // 👆 По умолчанию UI шлёт POST на этот путь с JSON { cmd: "/scan ..." }.
+    // Если у тебя другой маршрут — поменяй строку выше.
+
+    const gid = id => document.getElementById(id);
+    const out = gid('out');
+    const status = gid('status');
+
+    async function sendCmd(cmd) {
+      if (!cmd || !cmd.trim()) return;
+      setStatus('Выполняю…', 'warn');
+
+      try {
+        const res = await fetch(API_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cmd })
+        });
+        const data = await res.json().catch(() => ({}));
+
+        const pretty = JSON.stringify(data, null, 2);
+        out.textContent = pretty || 'Команда выполнена, но ответ пуст.';
+        setStatus(res.ok ? 'OK' : `Ошибка HTTP ${res.status}`, res.ok ? 'ok' : 'bad');
+      } catch (e) {
+        setStatus('Сеть/сервер недоступен', 'bad');
+        out.textContent = String(e);
+      }
+    }
+
+    function setStatus(text, kind='muted') {
+      status.className = 'badge ' + (kind || '');
+      status.textContent = text;
+    }
+  </script>
+</body>
+</html>
