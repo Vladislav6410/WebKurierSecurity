@@ -1,0 +1,12 @@
+{
+  "name": "webkurier-security",
+  "version": "1.0.0",
+  "description": "Security agent for WebKurier (scan, quarantine, report)",
+  "private": true,
+  "scripts": {
+    "scan": "node engine/agents/security/adapter.js scan .",
+    "report": "node engine/agents/security/adapter.js report",
+    "quarantine": "node engine/agents/security/adapter.js quarantine"
+  },
+  "dependencies": {}
+}
