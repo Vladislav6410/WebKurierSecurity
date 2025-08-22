@@ -30,4 +30,8 @@
 
 ```bash
 make venv
-. .venv/bin/activate && pip install -r requirements.txt
+. .venv/bin/activate && pip install -r requirements.txtmake ci     # все проверки
+make test   # только тесты
+make bench  # pytest + score.jsonmake ci     # все проверки
+make test   # только тесты
+make bench  # pytest + score.json
