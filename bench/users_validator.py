@@ -52,7 +52,9 @@ def _validate_user(obj: Dict[str, Any], idx: int) -> Tuple[bool, List[str]]:
     return (len(errors) == 0, errors)
 
 
-def load_valid_users(json_path: str | Path, *, log_path: str | Path | None = None) -> List[Dict[str, Any]]:
+def load_valid_users(
+    json_path: str | Path, *, log_path: str | Path | None = None
+) -> List[Dict[str, Any]]:
     """
     Читает JSON с массивом пользователей и возвращает список валидных записей.
     Ошибки валидации/парсинга пишет в файл лога.
