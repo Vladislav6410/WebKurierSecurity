@@ -1,10 +1,11 @@
+# bench/tests/test_users_validator.py
 from __future__ import annotations
 
 import json
 from pathlib import Path
 import pytest
 
-from users_validator import load_valid_users
+from bench.users_validator import load_valid_users
 
 
 def _read_log(p: Path) -> str:
@@ -74,7 +75,7 @@ def test_root_not_list(tmp_path: Path):
     users_path = tmp_path / "users.json"
     log_path = tmp_path / "errors.log"
 
-    payload = {"id": 1, "name": "Alice", "email": "alice@example.com"}  # корень — объект, а не список
+    payload = {"id": 1, "name": "Alice", "email": "alice@example.com"}  # корень — объект
     users_path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
     res = load_valid_users(users_path, log_path=log_path)
