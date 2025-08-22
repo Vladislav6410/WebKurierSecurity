@@ -9,7 +9,9 @@
 
 ---
 
-## 📂 Структураbench/
+## 📂 Структура
+
+bench/
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -24,10 +26,29 @@
 ├── runs/
 │   └── .gitkeep
 └── tests/
-└── test_users_validator.py---
+└── test_users_validator.py
+
+---
 
 ## ⚙️ Установка
 
 ```bash
 make venv
 . .venv/bin/activate && pip install -r requirements.txt
+
+
+⸻
+
+▶️ Использование
+
+make ci     # все проверки
+make test   # только тесты
+make bench  # pytest + score.json
+
+
+⸻
+
+📜 Лицензия
+
+MIT © 2025 WebKurier
+
