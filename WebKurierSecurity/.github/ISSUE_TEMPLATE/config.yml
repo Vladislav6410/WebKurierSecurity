@@ -1,5 +1,27 @@
 blank_issues_enabled: false
+
+issue_templates:
+  - name: "🚀 Feature Task"
+    description: "Новая функция или улучшение"
+    file: feature-task.md
+
+  - name: "⚙️ Core Task"
+    description: "Задача по ядру/движку"
+    file: core-task.md
+
+  - name: "📚 Doc Task"
+    description: "Документация"
+    file: doc-task.md
+
+  - name: "🛡️ Security Task"
+    description: "Безопасность/аудит"
+    file: security-task.md
+
+  - name: "🧩 UI Task"
+    description: "Интерфейс/верстка"
+    file: ui-task.md
+
 contact_links:
-  - name: 📖 Документация проекта
-    url: https://github.com/Vladislav6410
-    about: Ознакомься с документацией перед созданием задачи.
+  - name: "📖 Документация проекта"
+    url: https://github.com/Vladislav6410/WebKurierSecurity
+    about: Ознакомься с документацией и Wiki проекта.
