@@ -1,0 +1,34 @@
+name: README Replace (dry-run)
+
+on:
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  check-readme-replace:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show Python version
+        run: python --version
+
+      - name: Dry-run replace_readme.py
+        run: |
+          if [ ! -f "replace_readme.py" ]; then
+            echo "::error file=replace_readme.py::replace_readme.py not found in repo root"
+            exit 1
+          fi
+          python replace_readme.py --dry-run
+
+      - name: Makefile dry-run (optional)
+        if: ${{ hashFiles('Makefile') != '' }}
+        run: make readme.dryrun
