@@ -13,24 +13,6 @@
 - 🔐 Интеграция с **Dropbox**, **GitHub** и локальной системой  
 
 ---
-
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-replace_readme.py
-
-Полная замена README.md в репозитории WebKurierSecurity
-на финальные версии: README_public.md и README_tech.md + LICENSE.txt.
-
-Использование:
-    python replace_readme.py [--dry-run] [--no-symlink]
-"""
-
-import shutil
-import argparse
-from datetime import datetime
-from pathlib import Path
-
 # === КОНФИГУРАЦИЯ ===
 REPO_ROOT = Path(__file__).parent.resolve()  # Корень репозитория
 
