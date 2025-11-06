@@ -1,0 +1,91 @@
+<# 
+.SYNOPSIS
+  Полная замена README в WebKurierSecurity (Windows, без симлинков).
+  Создаёт/обновляет: README_public.md, README_tech.md, LICENSE.txt.
+  README.md перезаписывается копией README_public.md.
+
+.PARAMETER DryRun
+  Если указан, только показывает план действий без записи.
+
+.EXAMPLE
+  pwsh -File .\replace_readme.ps1
+  pwsh -File .\replace_readme.ps1 -DryRun
+#>
+
+param(
+  [switch]$DryRun
+)
+
+$ErrorActionPreference = "Stop"
+
+function Write-Info([string]$msg) { Write-Host $msg -ForegroundColor Cyan }
+function Write-Step([string]$msg) { Write-Host $msg -ForegroundColor Magenta }
+function Backup-File([string]$Path) {
+  if (Test-Path $Path) {
+    $stamp = Get-Date -Format "yyyyMMdd_HHmmss"
+    $backup = "$Path.$stamp.backup"
+    if ($DryRun) { Write-Info "[DRY-RUN] Backup: $Path → $backup" }
+    else { Copy-Item -LiteralPath $Path -Destination $backup -Force; Write-Info "Backup: $Path → $backup" }
+  }
+}
+function Ensure-Dir([string]$DirPath) {
+  if (-not (Test-Path $DirPath)) {
+    if ($DryRun) { Write-Info "[DRY-RUN] Mkdir: $DirPath" }
+    else { New-Item -ItemType Directory -Path $DirPath -Force | Out-Null }
+  }
+}
+function Write-FileUtf8([string]$Path, [string]$Content) {
+  Ensure-Dir (Split-Path -Parent $Path)
+  if ($DryRun) { Write-Info "[DRY-RUN] Write: $Path" }
+  else { $Content | Out-File -FilePath $Path -Encoding utf8 -Force }
+}
+
+$RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
+Set-Location $RepoRoot
+Write-Step "Running replace_readme.ps1 in $RepoRoot"
+
+# ---------- Содержимое файлов ----------
+$README_PUBLIC = @"
+# 🛡 WebKurierSecurity  
+**Security Module for WebKurierCore**  
+*Threat detection • File scanning • Token protection • Quarantine • Reports*
+
+---
+
+## Features
+- Real-time threat detection
+- File and directory scanning
+- Protection of tokens, keys, and sensitive data
+- Quarantine for suspicious objects
+- Security reports (PDF/JSON)
+- Integration with Dropbox, GitHub, and local system
+
+---
+
+## Project Structure
+WebKurierSecurity/
+├── engine/
+│   └── agents/security/
+│       ├── security-agent.js
+│       ├── scanner.js
+│       ├── quarantine.js
+│       └── reports.js
+├── config/
+│   └── settings.json
+├── .github/workflows/tests.yml
+├── bench/
+│   ├── users_validator.py
+│   ├── bench_score.py
+│   └── tests/test_users_validator.py
+├── README_public.md   ← You’re reading it!
+├── README_tech.md     ← Technical version
+└── LICENSE.txt        ← Proprietary license
+
+---
+
+## Installation
+
+```bash
+git clone https://github.com/Vladislav6410/WebKurierSecurity.git
+cd WebKurierSecurity
+npm install
