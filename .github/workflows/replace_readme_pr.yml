@@ -1,0 +1,81 @@
+name: 🧩 Replace README and Create PR
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Запустить в dry-run режиме (только проверка)?"
+        required: false
+        default: "false"
+
+jobs:
+  replace-readme:
+    name: Replace README and Create Pull Request
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show Python version
+        run: python --version
+
+      - name: Run replace_readme.py
+        run: |
+          echo "🔧 Running replace_readme.py ..."
+          if [ "${{ github.event.inputs.dry_run }}" == "true" ]; then
+            python replace_readme.py --dry-run
+          else
+            python replace_readme.py
+          fi
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Create new branch with timestamp
+        id: branch
+        run: |
+          BRANCH="auto/readme-update-$(date +'%Y%m%d-%H%M%S')"
+          git checkout -b "$BRANCH"
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+
+      - name: Commit changes
+        run: |
+          git add README.md README_public.md README_tech.md LICENSE.txt || true
+          if git diff --cached --quiet; then
+            echo "✅ No changes to commit."
+            exit 0
+          fi
+          git commit -m "📝 Update README and LICENSE (automated)"
+
+      - name: Push changes
+        run: git push origin "${{ steps.branch.outputs.branch }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "📝 Update README and LICENSE (auto)"
+          branch: ${{ steps.branch.outputs.branch }}
+          title: "🧩 Auto: Replace README and LICENSE"
+          body: |
+            This automated PR replaces README.md, README_public.md, README_tech.md, and LICENSE.txt  
+            using the latest version of `replace_readme.py`.
+
+            **Triggered by:** ${{ github.actor }}
+            **Mode:** ${{ github.event.inputs.dry_run == 'true' && 'Dry Run' || 'Full Replace' }}
+          labels: ["automation", "readme", "security"]
+          draft: false
