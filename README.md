@@ -1,146 +1,259 @@
-# 🛡 WebKurierSecurity
+Сделал обновление под новый проект WebKurierSecurity и убрал упоминания «внутреннего терминала» WebKurier — остаётся только обычный терминал Ubuntu 22.04.
 
-**WebKurierSecurity** — модуль защиты для **WebKurierCore**.  
+⸻
 
----
+1. Актуальная схема репозиториев (10 слотов)
 
-## 📌 Основные функции
-- 🔍 Обнаружение угроз в реальном времени  
-- 🗂 Сканирование файлов и каталогов  
-- 🔑 Защита токенов, ключей и конфиденциальных данных  
-- 🛑 Карантин подозрительных объектов  
-- 📄 Генерация отчётов о проверках  
-- 🔐 Интеграция с **Dropbox**, **GitHub** и локальной системой  
+Этот блок можно вставить в README для WebKurierHybrid / общего документа:
 
----
-# === КОНФИГУРАЦИЯ ===
-REPO_ROOT = Path(__file__).parent.resolve()  # Корень репозитория
+## Репозитории экосистемы WebKurier (10 слотов)
 
-README_PUBLIC = """# 🛡 WebKurierSecurity  
-**Security Module for WebKurierCore**  
-*Threat detection • File scanning • Token protection • Quarantine • Reports*
+| #  | Репозиторий           | Роль                       | Живут здесь                                           |
+|----|-----------------------|----------------------------|-------------------------------------------------------|
+| 1  | WebKurierHybrid       | Оркестратор + Инфраструктура | Docker, Ansible, VM, CI/CD, submodules               |
+| 2  | WebKurierCore         | Веб-ядро + Агенты + Боты   | UI, AdminBot, Telegram/WhatsApp, агенты              |
+| 3  | WebKurierDroneHybrid  | Все дроны в одном          | Геодезия, автопилот, рой, голограммы, питание        |
+| 4  | WebKurierChain        | Блокчейн + Бухгалтерия     | Хранение, API, `accountant/`                         |
+| 5  | WebKurierSecurity     | Security + Legal           | `engine/agents/security/`, скан, карантин, юрист, GDPR |
+| 6  | WebKurierPhoneCore    | Бэкенд мобильного переводчика | Звонки, курсы A1–C1, отчёты                       |
+| 7  | WebKurierPhone-iOS    | iOS-приложение             | SwiftUI, звонки, уроки, статистика                   |
+| 8  | WebKurierPhone-Android| Android-приложение         | Jetpack Compose, тот же функционал                   |
+| 9  | WebKurierSite         | Лендинг + Доки             | GitHub Pages, демо, QR, инструкции                   |
+| 10 | (Резерв)              | Будущий спецпроект         | Holo-Show, AI-Cluster, etc.                          |
 
----
+
+⸻
+
+2. Обновлённые тексты README_public / README_tech / LICENSE
+
+Ниже — готовый replace_readme.py, уже обновлённый под:
+	•	новый проект WebKurierSecurity;
+	•	роль репозитория №5 в общей схеме;
+	•	указание «Made in Germany»;
+	•	корректное имя: Vladyslav Hushchyn / Владислав Гущин;
+	•	без упоминаний WebKurier-терминала (только обычный терминал Ubuntu 22.04).
+
+Просто сохрани это как replace_readme.py в корне WebKurierSecurity и запусти в Ubuntu 22.04.
+
+#!/usr/bin/env python3
+"""
+replace_readme.py — установка финальных README и LICENSE для WebKurierSecurity.
+
+Использование (в терминале Ubuntu 22.04):
+
+    # пробный прогон
+    python3 replace_readme.py --dry-run
+
+    # реальная замена
+    python3 replace_readme.py
+
+    # если симлинки запрещены (Windows/права)
+    python3 replace_readme.py --no-symlink
+"""
+
+from pathlib import Path
+from datetime import datetime
+import argparse
+import shutil
+
+# Корень репозитория
+REPO_ROOT = Path(__file__).parent.resolve()
+
+README_PUBLIC = """# 🛡 WebKurierSecurity
+
+Security & Compliance module for the **WebKurier** ecosystem (WebKurierCore, WebKurierHybrid, WebKurierChain, Dropbox, GitHub).
+
+Made in Germany — 2025
+
+## Overview
+
+WebKurierSecurity is responsible for threat detection, file scanning, token & key protection, quarantine of suspicious objects, 
+and generation of security reports for the whole WebKurier stack.
+
+## Role in WebKurier ecosystem
+
+This repository is **slot #5** in the global WebKurier layout:
+
+- Repository: `WebKurierSecurity`
+- Role: `Security + Legal`
+- Lives: `engine/agents/security/` (security-agent, scanner, quarantine, reports, legal/GDPR checks)
 
 ## Features
+
 - Real-time threat detection
 - File and directory scanning
 - Protection of tokens, keys, and sensitive data
 - Quarantine for suspicious objects
 - Security reports (PDF/JSON)
-- Integration with Dropbox, GitHub, and local system
-
----
+- Integration with Dropbox, GitHub, and local filesystem
+- Hooks for legal/GDPR checks and audit
 
 ## Project Structure
-WebKurierSecurity/
-├── engine/
-│   └── agents/security/
-│       ├── security-agent.js
-│       ├── scanner.js
-│       ├── quarantine.js
-│       └── reports.js
-├── config/
-│   └── settings.json
-├── .github/workflows/tests.yml
-├── bench/
-│   ├── users_validator.py
-│   ├── bench_score.py
-│   └── tests/test_users_validator.py
-├── README_public.md   ← You’re reading it!
-├── README_tech.md     ← Technical version
-└── LICENSE.txt        ← Proprietary license
 
----
-
-## Installation
-
-```bash
-git clone https://github.com/Vladislav6410/WebKurierSecurity.git
-cd WebKurierSecurity
-npm install
-
-Launch
-
-node engine/agents/security/security-agent.js
-# or directly:
-node security-agent.js
-
-Integration with WebKurierCore
-	1.	Copy the security/ folder into engine/agents/ of WebKurierCore.
-	2.	Add the module to config/settings.json.
-	3.	Run in WebKurierCore terminal: /security scan
-
-⸻
-
-License
-
-Proprietary License — © 2025 Vladyslav Hushchyn (Владислав Гущин)
-All rights reserved.
-Use, modification, or distribution is prohibited without written permission from the author.
-For permissions: @WebKurierBot
-“””
-
-README_TECH = “”“WebKurierSecurity — Security Module for WebKurierCore
-
-Description
-Module provides security features for WebKurierCore: real-time threat detection, file scanning, token/key protection,
-quarantine, and report generation.
-
-Features
-	•	Real-time threat detection
-	•	File and directory scanning
-	•	Protection of tokens, keys, and confidential data
-	•	Quarantine of suspicious objects
-	•	Security report generation (PDF/JSON)
-	•	Integration with Dropbox, GitHub, and local filesystem
-
-Project Structure
+```text
 WebKurierSecurity/
 ├── engine/agents/security/
-│   ├── security-agent.js    (entry point for agent)
-│   ├── scanner.js           (scanning logic)
-│   ├── quarantine.js        (isolation of threats)
-│   └── reports.js           (report generator)
-├── config/settings.json     (module configuration)
-├── .github/workflows/tests.yml  (CI/CD pipeline)
+│   ├── security-agent.js       # main security agent entry point
+│   ├── scanner.js              # scanning logic
+│   ├── quarantine.js           # isolation of threats
+│   └── reports.js              # report generator
+├── config/
+│   └── settings.json           # module configuration
+├── .github/workflows/
+│   └── tests.yml               # CI pipeline (lint/tests)
 ├── bench/
 │   ├── users_validator.py
 │   ├── bench_score.py
-│   └── tests/test_users_validator.py
-├── README_public.md         (public documentation)
-├── README_tech.md           (this technical file)
-└── LICENSE.txt              (proprietary license)
+│   └── tests/
+│       └── test_users_validator.py
+├── README_public.md            # this public documentation (you are here)
+├── README_tech.md              # technical details for developers
+└── LICENSE.txt                 # proprietary license
 
-Installation
+Installation (Ubuntu 22.04 LTS)
+
+Requirements:
+	•	Node.js 18+ or 20+
+	•	Git
+	•	Python 3 (for tools in bench/, optional)
+
 git clone https://github.com/Vladislav6410/WebKurierSecurity.git
 cd WebKurierSecurity
 npm install
 
-Launch
+Usage
+
+Run the security agent from your system terminal (Ubuntu 22.04):
+
+cd WebKurierSecurity
 node engine/agents/security/security-agent.js
-
-or
-
+# or:
 node security-agent.js
 
-Integration with WebKurierCore
-	1.	Copy the security/ folder to engine/agents/ in WebKurierCore.
-	2.	Register the module in config/settings.json.
-	3.	Execute in WebKurierCore terminal: /security scan
+The agent can be integrated as:
+	•	a background service (systemd unit),
+	•	a CLI tool for on-demand scans,
+	•	an internal module called by WebKurierCore / WebKurierHybrid.
+
+Integration examples
+	•	WebKurierCore: call the scanner via internal HTTP/CLI from backend or scheduled jobs.
+	•	WebKurierHybrid: register WebKurierSecurity as a security service in the orchestrator.
+	•	WebKurierChain: send hashes, logs and incident reports to the blockchain for immutable storage.
 
 License
-Proprietary License — © 2025 Vladyslav Hushchyn (Владислав Гущин)
-All rights reserved. Use, copying, modification, or distribution of this code is prohibited
+
+Proprietary License — © 2025 Vladyslav Hushchyn (Владислав Гущин) — Made in Germany
+All rights reserved.
+Use, modification, or distribution is prohibited without written permission from the author.
+
+For permissions and commercial licensing:
+	•	Telegram: @WebKurierBot
+“””
+
+README_TECH = “””# WebKurierSecurity — Technical Documentation
+
+Description
+
+WebKurierSecurity provides security and compliance features for the WebKurier ecosystem:
+	•	real-time threat detection,
+	•	file and directory scanning,
+	•	protection of tokens, keys, and confidential data,
+	•	quarantine of suspicious objects,
+	•	security report generation (PDF/JSON),
+	•	integration with Dropbox, GitHub and local filesystem,
+	•	hooks for legal / GDPR checks and audit.
+
+This document is intended for developers and integrators.
+
+Architecture
+
+Main components:
+	•	security-agent.js — high-level orchestration and public interface;
+	•	scanner.js — core scanning logic (file system, patterns, signatures, rules);
+	•	quarantine.js — isolation of suspicious/malicious objects;
+	•	reports.js — generation of security reports (JSON, PDF via external tools if configured);
+	•	config/settings.json — configuration of paths, rules, integration switches.
+
+Project Structure
+
+WebKurierSecurity/
+├── engine/agents/security/
+│   ├── security-agent.js       # entry point for security agent
+│   ├── scanner.js              # scanning logic
+│   ├── quarantine.js           # quarantine and restore
+│   └── reports.js              # report generator
+├── config/
+│   └── settings.json           # module configuration
+├── .github/workflows/
+│   └── tests.yml               # CI/CD pipeline (lint/tests)
+├── bench/
+│   ├── users_validator.py      # example validation benchmark
+│   ├── bench_score.py          # scoring utilities
+│   └── tests/
+│       └── test_users_validator.py
+├── README_public.md            # public documentation
+├── README_tech.md              # this technical file
+└── LICENSE.txt                 # proprietary license
+
+Installation
+
+git clone https://github.com/Vladislav6410/WebKurierSecurity.git
+cd WebKurierSecurity
+npm install
+
+Node.js 18+ (preferably 20+) is recommended.
+
+Running the agent
+
+From a system terminal (Ubuntu 22.04 or compatible):
+
+cd WebKurierSecurity
+node engine/agents/security/security-agent.js
+# or
+node security-agent.js
+
+The wrapper security-agent.js can expose:
+	•	CLI commands (e.g. scan, report, quarantine, restore),
+	•	HTTP API (optional, via Express/Fastify),
+	•	hooks for other WebKurier services.
+
+Integration with WebKurierCore
+
+Typical integration steps:
+	1.	Add WebKurierSecurity configuration block to WebKurierCore/config/settings.json (endpoints, paths, API keys if any).
+	2.	Configure backend service in WebKurierCore to call WebKurierSecurity for:
+	•	pre-deploy scans,
+	•	on-demand scans of uploaded files,
+	•	scheduled full scans.
+	3.	Optionally, propagate incidents and report metadata to WebKurierChain.
+
+Logging & Reports
+	•	Scanner and quarantine modules should log all actions to a dedicated log file (e.g. logs/security.log).
+	•	Reports can be generated as JSON; PDF generation can be added via external tools and configured in config/settings.json.
+
+Bench module
+
+bench/ contains example utilities and tests for validators and scoring logic.
+They are optional and can be used as a template for further security-related benchmarks.
+
+License
+
+Proprietary License — © 2025 Vladyslav Hushchyn (Владислав Гущин) — Made in Germany
+
+All rights reserved. Use, copying, modification or distribution of this code is prohibited
 without prior written permission from the author.
-Contact for permissions: Telegram @WebKurierBot — https://t.me/WebKurierBot
+
+Contact for permissions:
+	•	Telegram: @WebKurierBot
 “””
 
 LICENSE_TXT = “”“Proprietary License — © 2025 Vladyslav Hushchyn (Владислав Гущин)
+Made in Germany — 2025
 All rights reserved.
 Use, modification, or distribution of this software is prohibited without the author’s prior written permission.
 
 Проприетарная лицензия — © 2025 Владислав Гущин (Vladyslav Hushchyn)
+Разработка: Германия, 2025.
 Все права защищены.
 Использование, копирование, изменение или распространение кода запрещено без письменного разрешения автора.
 
@@ -170,17 +283,17 @@ print(f”Резерв: {path} → {backup}”)
 
 def main() -> None:
 parser = argparse.ArgumentParser(
-description=“Замена README на финальные версии (public + tech) и LICENSE.”
+description=“Замена README (public + tech) и LICENSE на финальные версии для WebKurierSecurity.”
 )
 parser.add_argument(
 “–dry-run”,
 action=“store_true”,
-help=“Только показать, что будет сделано.”
+help=“Только показать, что будет сделано.”,
 )
 parser.add_argument(
 “–no-symlink”,
 action=“store_true”,
-help=“Не делать симлинк README.md → README_public.md (создать копию).”
+help=“Не делать симлинк README.md → README_public.md (создать копию).”,
 )
 args = parser.parse_args()
 
@@ -210,7 +323,7 @@ if old_readme.exists():
         old_readme.unlink()
         print(f"Удалён: {old_readme}")
 
-# README.md → public
+# README.md → README_public.md
 symlink_target = REPO_ROOT / "README.md"
 if symlink_target.exists() and not args.dry_run:
     symlink_target.unlink()
@@ -236,13 +349,12 @@ if args.dry_run:
 if name == “main”:
 main()
 
-**Быстрый запуск:**
-```bash
-# пробный прогон
-python replace_readme.py --dry-run
+---
 
-# реальная замена
-python replace_readme.py
+Если хочешь, могу отдельно вытащить «чистые» версии:
 
-# если симлинки запрещены (Windows/права)
-python replace_readme.py --no-symlink
+- `README_public.md`
+- `README_tech.md`
+- `LICENSE.txt`
+
+чтобы ты мог просто вставить их напрямую в GitHub без скрипта.
