@@ -1,7 +1,31 @@
 ## Репозитории экосистемы WebKurier (10 слотов)
-<p align="center">
-  <img src="docs/security-banner.svg" width="100%" alt="WebKurierSecurity — Security module for WebKurierCore">
+
+  <p align="center">
+  <img src="docs/security-banner.svg" width="900" alt="WebKurierSecurity — Security module for WebKurierCore">
 </p>
+
+<p align="center">
+  <a href="https://github.com/Vladislav6410/WebKurierSecurity/actions/workflows/security-scan.yml">
+    <img src="https://github.com/Vladislav6410/WebKurierSecurity/actions/workflows/security-scan.yml/badge.svg" alt="Security Scan" />
+  </a>
+  <a href="https://github.com/Vladislav6410/WebKurierSecurity/actions/workflows/node-tests.yml">
+    <img src="https://github.com/Vladislav6410/WebKurierSecurity/actions/workflows/node-tests.yml/badge.svg" alt="Node.js Tests" />
+  </a>
+  <a href="https://github.com/Vladislav6410/WebKurierSecurity/actions/workflows/deploy-docs.yml">
+    <img src="https://github.com/Vladislav6410/WebKurierSecurity/actions/workflows/deploy-docs.yml/badge.svg" alt="Docs Deploy" />
+  </a>
+  <a href="https://github.com/Vladislav6410/WebKurierSecurity/blob/main/LICENSE.txt">
+    <img src="https://img.shields.io/badge/license-Proprietary-red" alt="License: Proprietary" />
+  </a>
+  <img src="https://img.shields.io/badge/node-%3E%3D%2020.x-6DA55F" alt="Node &gt;= 20" />
+</p>
+
+---
+
+# WebKurierSecurity
+
+Модуль защиты для WebKurierCore: обнаружение угроз, сканирование файлов, защита токенов и ключей, карантин подозрительных объектов и генерация отчётов.
+
 | #  | Репозиторий           | Роль                       | Живут здесь                                           |
 |----|-----------------------|----------------------------|-------------------------------------------------------|
 | 1  | WebKurierHybrid       | Оркестратор + Инфраструктура | Docker, Ansible, VM, CI/CD, submodules               |
