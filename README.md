@@ -1,5 +1,7 @@
 ## Репозитории экосистемы WebKurier (10 слотов)
-
+<p align="center">
+  <img src="docs/security-banner.svg" width="100%" alt="WebKurierSecurity — Security module for WebKurierCore">
+</p>
 | #  | Репозиторий           | Роль                       | Живут здесь                                           |
 |----|-----------------------|----------------------------|-------------------------------------------------------|
 | 1  | WebKurierHybrid       | Оркестратор + Инфраструктура | Docker, Ansible, VM, CI/CD, submodules               |
