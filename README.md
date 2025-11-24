@@ -1,7 +1,7 @@
 ## Репозитории экосистемы WebKurier (10 слотов)
 
-  <p align="center">
-  <img src="docs/security-banner.svg" width="900" alt="WebKurierSecurity — Security module for WebKurierCore">
+<p align="center">
+  <img src="assets/security-banner-terminal.svg" width="100%" alt="WebKurierSecurity Terminal Banner"/>
 </p>
 
 <p align="center">
