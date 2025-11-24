@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#080814"/>
+      <stop offset="50%" stop-color="#23164a"/>
+      <stop offset="100%" stop-color="#3e2e7a"/>
+    </linearGradient>
+
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#b48cff"/>
+      <stop offset="100%" stop-color="#7c5cff"/>
+    </linearGradient>
+
+    <linearGradient id="shield-stroke" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#b48cff"/>
+    </linearGradient>
+
+    <style>
+      .title-en {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 700;
+        font-size: 44px;
+        letter-spacing: 0.05em;
+        fill: #ffffff;
+        text-transform: uppercase;
+      }
+      .title-ru {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 400;
+        font-size: 22px;
+        fill: #d3ccff;
+      }
+      .tagline {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        font-weight: 400;
+        font-size: 18px;
+        fill: #c9c3ff;
+      }
+      .mono {
+        font-family: "SF Mono", "JetBrains Mono", Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+        font-size: 13px;
+        fill: #9ca3ff;
+      }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="0" y="0" width="1200" height="320" rx="28" ry="28" fill="url(#bg-grad)"/>
+
+  <!-- Grid / lines -->
+  <g opacity="0.2">
+    <path d="M80 40 H1120 M80 100 H1120 M80 160 H1120 M80 220 H1120 M80 280 H1120"
+          stroke="#7960ff" stroke-width="0.8" stroke-dasharray="4 8" />
+    <path d="M200 20 V300 M380 20 V300 M560 20 V300 M740 20 V300 M920 20 V300"
+          stroke="#43308e" stroke-width="0.6" stroke-dasharray="2 10" />
+  </g>
+
+  <!-- Shield logo -->
+  <g transform="translate(130,70)">
+    <!-- outer glow -->
+    <circle cx="0" cy="90" r="86" fill="#000000" opacity="0.35"/>
+    <!-- main circle -->
+    <circle cx="0" cy="90" r="80" fill="#111325" stroke="#7c5cff" stroke-width="2"/>
+
+    <!-- shield base -->
+    <path d="M0 26 L48 42 V94 C48 123 29 144 0 158 C-29 144 -48 123 -48 94 V42 Z"
+          fill="#181b33" stroke="url(#shield-stroke)" stroke-width="3" />
+
+    <!-- shield inner -->
+    <path d="M0 38 L36 50 V94 C36 114 23 129 0 140 C-23 129 -36 114 -36 94 V50 Z"
+          fill="#25294a" />
+
+    <!-- vertical bar -->
+    <rect x="-6" y="52" width="12" height="56" rx="4" fill="url(#accent)"/>
+
+    <!-- lock / token icon -->
+    <circle cx="0" cy="70" r="11" fill="#111325" stroke="#c6b4ff" stroke-width="2"/>
+    <rect x="-6" y="70" width="12" height="16" rx="4" fill="#c6b4ff"/>
+
+    <!-- small spark lines -->
+    <path d="M-64 58 H-50 M-64 122 H-48 M52 70 H68 M50 120 H66"
+          stroke="#b48cff" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Text block -->
+  <g transform="translate(310,110)">
+    <text class="title-en">
+      WebKurierSecurity
+    </text>
+    <text class="title-ru" y="40">
+      Модуль защиты для WebKurierCore
+    </text>
+
+    <text class="tagline" y="82">
+      Threat detection · File & token scanning · Quarantine · Security reports
+    </text>
+    <text class="tagline" y="110">
+      Обнаружение угроз · Сканирование файлов и ключей · Карантин · Отчёты
+    </text>
+
+    <text class="mono" y="146">
+      engine/agents/security/ ▸ security-agent · scanner · quarantine · reports
+    </text>
+  </g>
+
+  <!-- Accent bar -->
+  <rect x="310" y="250" width="520" height="3" rx="1.5" fill="url(#accent)" opacity="0.85"/>
+</svg>
