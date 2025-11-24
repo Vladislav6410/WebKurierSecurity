@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="260" viewBox="0 0 1200 260"
+     xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-labelledby="title desc">
+  <title id="title">WebKurierSecurity Terminal Banner</title>
+  <desc id="desc">
+    Hacker style terminal banner for WebKurierSecurity: dark background,
+    green monospace text, status lines with OK markers.
+  </desc>
+
+  <!-- Фон -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#050608"/>
+      <stop offset="100%" stop-color="#020305"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1aff8a"/>
+      <stop offset="100%" stop-color="#00b35c"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1200" height="260" fill="url(#bg)"/>
+
+  <!-- Рамка терминала -->
+  <rect x="40" y="25" width="1120" height="210" rx="12" ry="12"
+        fill="none" stroke="url(#frame)" stroke-width="2"/>
+
+  <!-- Верхняя полоска окна -->
+  <rect x="40" y="25" width="1120" height="32" rx="12" ry="12"
+        fill="#050608" stroke="url(#frame)" stroke-width="2"/>
+
+  <!-- Кнопки окна -->
+  <circle cx="62" cy="41" r="5" fill="#ff5f57"/>
+  <circle cx="78" cy="41" r="5" fill="#febc2e"/>
+  <circle cx="94" cy="41" r="5" fill="#28c840"/>
+
+  <!-- Текст терминала -->
+  <g font-family="SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+     font-size="16" xml:space="preserve">
+
+    <!-- Заголовок -->
+    <text x="120" y="45" fill="#8affc4">
+      WebKurierSecurity • security-agent v1.0
+    </text>
+
+    <!-- Основной вывод -->
+    <text x="80" y="90" fill="#7f8c8d">
+      root@WebKurierSecurity:~ $
+    </text>
+    <text x="310" y="90" fill="#00ff6a">
+      security-agent --scan --all --mode=protect
+    </text>
+
+    <text x="80" y="125" fill="#00ff6a">
+      [ OK ]
+    </text>
+    <text x="160" y="125" fill="#e0f5ec">
+      scanning modules...  engine/agents/security/*
+    </text>
+
+    <text x="80" y="155" fill="#00ff6a">
+      [ OK ]
+    </text>
+    <text x="160" y="155" fill="#e0f5ec">
+      tokens &amp; API keys: encrypted &amp; protected
+    </text>
+
+    <text x="80" y="185" fill="#00ff6a">
+      [ OK ]
+    </text>
+    <text x="160" y="185" fill="#e0f5ec">
+      quarantine: active • suspicious objects isolated
+    </text>
+
+    <text x="80" y="215" fill="#7f8c8d">
+      root@WebKurierSecurity:~ #
+    </text>
+    <text x="310" y="215" fill="#00ff6a">
+      WebKurier • Security core ready.
+    </text>
+  </g>
+</svg>
